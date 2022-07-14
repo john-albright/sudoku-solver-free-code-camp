@@ -8,25 +8,25 @@ let solver = new Solver();
 suite('Unit Tests', () => {
     // #1: Logic handles a valid puzzle string of 81 characters
     test('#1 handle valid puzzle strings', function() {
-        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[0][0]), '\'1.5..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8..1..16....926914.37.\' is a valid puzzle string.');
-        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[1][0]));
-        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[2][0]));
-        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[3][0]));
-        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[4][0]));
+        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[0][0]), 'The first sample puzzle is a valid puzzle string.');
+        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[1][0]), 'The second sample puzzle is a valid puzzle string.');
+        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[2][0]), 'The third sample puzzle is a valid puzzle string.');
+        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[3][0]), 'The fourth sample puzzle is a valid puzzle string.');
+        assert.isTrue(solver.validate(Strings.puzzlesAndSolutions[4][0]), 'The fifth sample puzzle is a valid puzzle string.');
     });
 
     // #2: Logic handles a puzzle string with invalid characters (not 1-9 or .)
     test('#2 handle puzzle strings with invalid characters', function() {
-        assert.isFalse(solver.validate(('*&!$@#$^*').repeat(9)));
-        assert.isFalse(solver.validate(('easyoidef').repeat(9)));
-        assert.isFalse(solver.validate(('d12hj...f').repeat(9)));
+        assert.isFalse(solver.validate(('*&!$@#$^*').repeat(9)), 'A puzzle with the characters *&!$@#$^* is invalid.');
+        assert.isFalse(solver.validate(('easyoidef').repeat(9)), 'A puzzle with the alphabetic characters is invalid.');
+        assert.isFalse(solver.validate(('d12hj...f').repeat(9)), 'A puzzle with characters and letters is invalid.');
     });
 
     // #3: Logic handles a puzzle string that is not 81 characters in length
     test('#3 handle puzzle strings that are not 81 characters in length', function() {
-        assert.isFalse(solver.validate(('.').repeat(85)));
-        assert.isFalse(solver.validate(('123456789').repeat(10)));
-        assert.isFalse(solver.validate('123456789'));
+        assert.isFalse(solver.validate(('.').repeat(85)), 'A puzzle of length 85 is invalid.');
+        assert.isFalse(solver.validate(('123456789').repeat(10)), 'A puzzle of length 90 is invalid.');
+        assert.isFalse(solver.validate('123456789'), 'A puzzle of length 9 is invalid.');
     });
 
     // #4: Logic handles a valid row placement
@@ -97,6 +97,7 @@ suite('Unit Tests', () => {
         assert.isFalse(solver.solve(('*&!$@#$^*').repeat(9)));
         assert.isFalse(solver.solve(('easyoidef').repeat(9)));
         assert.isFalse(solver.solve(('d12hj...f').repeat(9)));
+        assert.isFalse(solver.solve(('123456789').repeat(9)));
     });
 
     // #12: Solver returns the expected solution for an incomplete puzzle
@@ -107,33 +108,4 @@ suite('Unit Tests', () => {
         assert.equal(solver.solve(Strings.puzzlesAndSolutions[3][0]), Strings.puzzlesAndSolutions[3][1]);
         assert.equal(solver.solve(Strings.puzzlesAndSolutions[4][0]), Strings.puzzlesAndSolutions[4][1]);
     });
-});
-
-suite('Functional Tests', () => {
-
-    // #1: Solve a puzzle with valid puzzle string: POST request to /api/solve
-    test('#1 Solve a puzzle with a valid puzzle string', function() {
-        
-    });
-    // #2: Solve a puzzle with missing puzzle string: POST request to /api/solve
-    
-    // #3: Solve a puzzle with invalid characters: POST request to /api/solve
-    
-    // #4: Solve a puzzle with incorrect length: POST request to /api/solve
-    
-    // #5: Solve a puzzle that cannot be solved: POST request to /api/solve
-    
-    // #6: Check a puzzle placement with all fields: POST request to /api/check
-    
-    // #7: Check a puzzle placement with single placement conflict: POST request to /api/check
-
-    // #8: Check a puzzle placement with multiple placement conflicts: POST request to /api/check
-
-    // #9: Check a puzzle placement with all placement conflicts: POST request to /api/check
-    // #10: Check a puzzle placement with missing required fields: POST request to /api/check
-    // #11: Check a puzzle placement with invalid characters: POST request to /api/check
-    // #12: Check a puzzle placement with incorrect length: POST request to /api/check
-    // #13: Check a puzzle placement with invalid placement coordinate: POST request to /api/check
-    // #14: Check a puzzle placement with invalid placement value: POST request to /api/check
-
 });

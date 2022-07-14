@@ -95,14 +95,27 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
-    // Return false if the string is not a valid string
     if (!this.validate(puzzleString)) {
       return false;
     }
     // Return the string if the first test is passed and there are no periods in the string
     else if (puzzleString.split("").indexOf(".") < 0) {
-      //console.log(puzzleString);
+      
+      // Make sure the values in the puzzle are correct and there are no conflicts
+      const puzzleCheck = puzzleString.split("").every((val, index, array) => {
+        let row = Math.floor(index / 9);
+        let column = index % 9;
+        return this.checkColPlacement(puzzleString, row + 1, column + 1,val)
+                && this.checkColPlacement(puzzleString, row + 1, column + 1, val)
+                && this.checkRegionPlacement(puzzleString, row + 1, column + 1, val);
+      });
+      
+      // Return false if the puzzle check is false
+      if (!puzzleCheck) return puzzleCheck;
+
+      // Otherwise return the string input
       return puzzleString;
+
     }
     else {
 
@@ -121,15 +134,21 @@ class SudokuSolver {
           row++;
         }
 
+        // Calculate the index of the value in the string using the row and column
         index = row * 9 + column;
-        for (let j = 1; j < 10; j++) {
-          if (puzzleString[index] === "." && this.checkRowPlacement(puzzleString, row + 1, column + 1, j) 
-              && this.checkColPlacement(puzzleString, row + 1, column + 1, j)
-              && this.checkRegionPlacement(puzzleString, row + 1, column + 1, j)) {
-                if (!coordinatesDict[index]) coordinatesDict[index] = [j];
-                else coordinatesDict[index].push(j);
-              }
-        }
+        
+        // Process the puzzle properly depending on whether the current value is "." or a number
+        if (puzzleString[index] === ".") {
+          // Test different values for the current coordinate in the sudoku
+          for (let j = 1; j < 10; j++) {
+            if (this.checkRowPlacement(puzzleString, row + 1, column + 1, j) 
+                && this.checkColPlacement(puzzleString, row + 1, column + 1, j)
+                && this.checkRegionPlacement(puzzleString, row + 1, column + 1, j)) {
+                  if (!coordinatesDict[index]) coordinatesDict[index] = [j];
+                  else coordinatesDict[index].push(j);
+                }
+          }
+        } 
 
         // Increment the column
         column++;
@@ -153,7 +172,7 @@ class SudokuSolver {
     const puzzleArray = puzzleString.split("");
     
     // Iterate through the entries in the object
-    // Replace the decimals with numbers if the array value only has one value 
+    // Replace the periods with numbers if the array value only has one value 
     Object.entries(dictionary).forEach(([key, value]) => {
       if (value.length == 1) {
         puzzleArray[key] = value;
@@ -166,47 +185,5 @@ class SudokuSolver {
   }
 }
 
-/*
-
-    // Initialize variables to be used
-    let columns = [];
-    let rows = [];
-    let row = 0;
-    let col = 0;
-    let nextVal;
-
-    // Parse the array into array groupings of the columns and rows
-    for (let i = 0; i < puzzleLen; i++) {
-      nextVal = puzzleString[i];
-      //console.log(nextVal);
-
-      // Establish the column for the current iteration
-      col = i % 9;
-
-      // Store the values in each row
-      if (col == 0) rows.push([nextVal]);
-      else rows[row].push(nextVal);
-
-      // Update the row value if every col value has been visited
-      if (i != 0 && col == 0) {
-        row += 1;
-      }
-
-      // Store the values in each column
-      if (row == 0 && col != 9) columns.push([nextVal]);
-      else columns[col].push(nextVal);
-
-    }
-
-    let rowsAndCols = rows.concat(columns);
-
-    //console.log(rowsAndCols);
-
-    // Parse the string for groups of 9 horizontally and vertically
-    rows.forEach((val, index) => {
-      
-    });
-*/
 
 module.exports = SudokuSolver;
-

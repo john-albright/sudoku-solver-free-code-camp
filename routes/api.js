@@ -23,15 +23,15 @@ module.exports = function (app) {
         else return res.json({ "error": "Invalid characters in puzzle" });
       }
 
-      // Make sure the coordinate is of valid length (2 characters)
-      if (coordinate.length !== 2) return res.json({ "error": "Invalid coordinate" });
-
       const row = coordinate.charCodeAt(0) - 64;
-      const column = coordinate[1];
+      const column = coordinate.substr(1);
       //console.log(row, column);
 
+      // Make sure the coordinate is of valid length (2 characters) and the letter is not A-I
+      if (row < 0 || row > 9 || column < 0 || column > 9) return res.json({ "error": "Invalid coordinate" });
+
       // Make sure that the characters are numbers between 0 and 8
-      if (row < 0 || row > 8 || column < 0 || column > 8) return res.json({ "error": "Invalid value" });
+      if (value < 1 || value > 9) return res.json({ "error": "Invalid value" });
 
       const rowOk = solver.checkRowPlacement(puzzle, row, column, value);
       const colOk = solver.checkColPlacement(puzzle, row, column, value);
@@ -67,7 +67,7 @@ module.exports = function (app) {
 
       if (!solution) return res.json({ "error": "Puzzle cannot be solved" });
 
-      return res.json(solution);
+      return res.json({ "solution": solution });
 
     });
 };
