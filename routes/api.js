@@ -19,19 +19,19 @@ module.exports = function (app) {
 
       // Make sure the puzzle passes validate
       if (!solver.validate(puzzle)) {
-        if (puzzle.length > 81) return res.json({ "error": "Expected puzzle to be 81 characters long" });
+        if (puzzle.length !== 81) return res.json({ "error": "Expected puzzle to be 81 characters long" });
         else return res.json({ "error": "Invalid characters in puzzle" });
       }
+
+      // Make sure the coordinate is of valid length (2 characters) and the letter is not A-I
+      if (!coordinate.toString().match(/^[A-I]{1}[1-9]{1}$/)) return res.json({ "error": "Invalid coordinate" });
+
+      // Make sure that the characters are numbers between 0 and 8
+      if (!value.toString().match(/^[1-9]$/)) return res.json({ "error": "Invalid value" });
 
       const row = coordinate.charCodeAt(0) - 64;
       const column = coordinate.substr(1);
       //console.log(row, column);
-
-      // Make sure the coordinate is of valid length (2 characters) and the letter is not A-I
-      if (row < 0 || row > 9 || column < 0 || column > 9) return res.json({ "error": "Invalid coordinate" });
-
-      // Make sure that the characters are numbers between 0 and 8
-      if (value < 1 || value > 9) return res.json({ "error": "Invalid value" });
 
       const rowOk = solver.checkRowPlacement(puzzle, row, column, value);
       const colOk = solver.checkColPlacement(puzzle, row, column, value);
