@@ -1,34 +1,20 @@
 class SudokuSolver {
 
   validate(puzzleString) {
-    // Check to see if the string is the right length
-    //if (puzzleString.length !== 81) return false;
-
     // Check to see if all the values are . or 0-9
-    //let searchVal = puzzleString.search(/[^.0-9]/g);
     let numerals = puzzleString.match(/[1-9]/g);
     let periods = puzzleString.match(/[.]/g)
 
     let test1 = periods ? periods.length : 0;
     let test2 = numerals ? numerals.length : 0; 
 
-    //console.log(test1, test2);
-    //console.log(test1 + test2 === 81);
-
     return test1 + test2 === 81;
-
-    //if (searchVal === -1) return true;
-    //else return false;
-
-    //return test;
-
   }
 
   createNewPuzzle(puzzleString, row, column, value) {
     const rowMod = row - 1;
     const colMod = column - 1;
     const index = rowMod * 9 + colMod;
-
     //console.log(index, puzzleString[index]);
 
     // Add the new value to the string in the correct position
