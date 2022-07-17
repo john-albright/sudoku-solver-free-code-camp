@@ -32,7 +32,7 @@ suite('Functional Tests', () => {
             .end((err, res) => {
                 assert.equal(res.status, 200, 'Response status should be 200');
                 assert.equal(res.type, 'application/json', 'Response should be of type json');
-                assert.equal(res.body.error, 'Required field missing');
+                assert.equal(res.body.error, 'Required field missing', 'The error key should have a value of "Required field missing"');
             });
     });
 
@@ -47,7 +47,7 @@ suite('Functional Tests', () => {
             .end((err, res) => {
                 assert.equal(res.status, 200, 'Response status should be 200');
                 assert.equal(res.type, 'application/json', 'Response should be of type json');
-                assert.equal(res.body.error, 'Invalid characters in puzzle');
+                assert.equal(res.body.error, 'Invalid characters in puzzle', 'The error key should have a value of "Invalid characters in puzzle"');
             });
     });
 
@@ -62,7 +62,7 @@ suite('Functional Tests', () => {
             .end((err, res) => {
                 assert.equal(res.status, 200, 'Response status should be 200');
                 assert.equal(res.type, 'application/json', 'Response should be of type json');
-                assert.equal(res.body.error, 'Expected puzzle to be 81 characters long');
+                assert.equal(res.body.error, 'Expected puzzle to be 81 characters long', 'The error key should have a value of "Expected puzzle to be 81 characters long"');
             });
     });
 
